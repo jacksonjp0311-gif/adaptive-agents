@@ -1,10 +1,10 @@
 # Adaptive Agents
 
-![Adaptive Agents: fresh context, durable evidence, measured feedback](assets/banner.svg)
+![Adaptive Agents: a robot transitioning through luminous forms](assets/adaptive-agents-phase-transition.png)
 
 **A fresh agent for each job, with evidence that outlives the agent.**
 
-[Quickstart](#quickstart) · [Architecture](#architecture) · [Integration](docs/INTEGRATION.md) · [Mathematics](docs/MATHEMATICS.md) · [Contracts](docs/event.schema.json) · [Test evidence](docs/TEST-RESULTS.txt) · [Changelog](CHANGELOG.md)
+[Quickstart](#quickstart) � [Architecture](#architecture) � [Integration](docs/INTEGRATION.md) � [Mathematics](docs/MATHEMATICS.md) � [Contracts](docs/event.schema.json) � [Test evidence](docs/TEST-RESULTS.txt) � [Changelog](CHANGELOG.md)
 
 Adaptive Agents creates a job-specific name, role, context and unique instance identity. A host runs the assignment under its existing permissions and budgets. Outcomes and independently evaluated evidence enter an append-only graph; only scoped, valid lessons can inform future agents. The ephemeral context retires after durable evidence retention is acknowledged.
 
@@ -108,3 +108,4 @@ The supplied synthetic benchmark compares a fixed no-memory required-field check
 All source and SVG artwork were created for this standalone project. No Pegasus source, runtime records, private logs or credentials are included. Runtime dependencies: none. Optional build dependency: setuptools (MIT). Project license: [MIT](LICENSE).
 
 For coding agents and maintainers, read [AGENTS.md](AGENTS.md) before changing contracts.
+
