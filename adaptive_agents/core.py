@@ -98,11 +98,24 @@ class Store:
         self.db.execute("INSERT INTO events(event_id,instance_id,assignment_id,project_id,type,timestamp,payload,schema_version) VALUES(?,?,?,?,?,?,?,1)", (eid,spec["instance_id"],spec["assignment_id"],spec["project_id"],kind,now,encoded))
         return eid
 
-    def lessons(self, project_id, keys, now, limit=8, configuration_hash=""):
+    def _eligible_lessons(self, project_id, keys, now, configuration_hash="", *, source_instance_id=None, template_id=None):
+        events = self.events()
+        invalid = {e["payload"]["verification_event_id"] for e in events if e["type"] == "verification_revoked"}
+        revoked = {e["payload"]["lesson_id"] for e in events if e["type"] == "lesson_revoked"}
+        templates = {e["instance_id"]: e["payload"].get("template_id") for e in events if e["type"] == "allocated"}
+        for e in reversed(events):
+            if e["type"] != "lesson_validated" or e["project_id"] != project_id: continue
+            if source_instance_id is not None and e["instance_id"] != source_instance_id: continue
+            if template_id is not None and templates.get(e["instance_id"]) != template_id: continue
+            p = e["payload"]
+            if p.get("configuration_hash", "") == configuration_hash and p["key"] in keys and p["expires_at"] > now and p["lesson_id"] not in revoked and p["verification_event_id"] not in invalid:
+                yield dict(p, event_id=e["event_id"], source_instance_id=e["instance_id"], selection_reason="exact project/key/configuration; current verification and expiry")
+
+    def lessons(self, project_id, keys, now, limit=8, configuration_hash="", *, source_instance_id=None, template_id=None):
+        from itertools import islice
         if type(limit) is not int or not 0 <= limit <= 32: raise ValueError("invalid limit")
-        invalid = {e["payload"]["verification_event_id"] for e in self.events() if e["type"] == "verification_revoked"}
-        revoked = {e["payload"]["lesson_id"] for e in self.events() if e["type"] == "lesson_revoked"}
-        return [dict(e["payload"], event_id=e["event_id"], source_instance_id=e["instance_id"], selection_reason="exact project/key/configuration; current verification and expiry") for e in reversed(self.events()) if e["type"] == "lesson_validated" and e["project_id"] == project_id and e["payload"].get("configuration_hash", "") == configuration_hash and e["payload"]["key"] in keys and e["payload"]["expires_at"] > now and e["payload"]["lesson_id"] not in revoked and e["payload"]["verification_event_id"] not in invalid][:limit]
+        return list(islice(self._eligible_lessons(project_id, keys, now, configuration_hash,
+            source_instance_id=source_instance_id, template_id=template_id), limit))
 
     def graph(self):
         nodes, edges = {}, []

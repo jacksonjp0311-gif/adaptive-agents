@@ -1,13 +1,11 @@
-$ python -m pip wheel --no-build-isolation --no-deps --no-index --wheel-dir dist .
 Processing .\.
   Preparing metadata (pyproject.toml): started
   Preparing metadata (pyproject.toml): finished with status 'done'
 Building wheels for collected packages: adaptive-agents
   Building wheel for adaptive-agents (pyproject.toml): started
   Building wheel for adaptive-agents (pyproject.toml): finished with status 'done'
-  Created wheel for adaptive-agents: filename=adaptive_agents-0.2.0-py3-none-any.whl size=15017 sha256=e707295e359bcdfaab46fb6405f6bac0371a41f60b8b15c16f1aede9ba9a0035
-  Stored in directory: <repository>\pip-ephem-wheel-cache-ixtznbqp\wheels\90\27\ed\0e80641479549ebf63cb6dfefed20c331980b07ab695a2c6d0
+  Created wheel for adaptive-agents: filename=adaptive_agents-0.2.1-py3-none-any.whl size=15469 sha256=55a1421cfac59a7b6235896c9563efd9330b5ff31b7bdfc2a6005e715347538a
+  Stored in directory: <repository>\pip-ephem-wheel-cache-huj7sbnu\wheels\90\27\ed\0e80641479549ebf63cb6dfefed20c331980b07ab695a2c6d0
 Successfully built adaptive-agents
 
-CLI demo/export JSON roundtrip: OK
-Wheel isolated import including optional memory adapter: OK
+CLI JSON roundtrip and isolated wheel import: OK

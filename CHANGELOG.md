@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 - 2026-10-20
+
+- Filter full lesson scope before result limits; unrelated instances/templates cannot crowd out retention or search.
+- Fail incomplete retention when the source has more than 32 eligible lessons.
+- Bind receipts to store UUID and destination digest; reject another store or legacy unbound receipt. Optional bridge protocol advances to v2; existing data is never migrated implicitly.
+- Preserve independent-review regression failures and add scope, overflow and destination tests.
+
 ## 0.2.0 - 2026-10-20
 
 - Add optional fresh-store RecallTree bridge and Python memory adapter, with exact project/template/configuration binding.

@@ -146,4 +146,65 @@ class MemoryBridgeTests(unittest.TestCase):
         self.assertTrue({'retrieved_for_run','retained_in_memory'} <= kinds)
         self.assertNotIn('Check required schema fields',str(self.store.export_structure(target)))
 
+    def crowd(self, template='other'):
+        for number in range(32):
+            source=self.instance(template_id=template)
+            self.life.transition(source,'running')
+            outcome=self.life.transition(source,'completed',summary='crowding fixture',evidence=[{'ref':'fixture://crowd','sha256':'b'*64}])
+            verifier=self.life.verify(source,passed=True,verifier='host-v1',evidence_event_id=outcome,check='fixture')
+            self.life.add_lesson(source,key='schema',text='Other schema lesson',verification_event_id=verifier,expires_at=1100)
+
+    def test_other_template_cannot_crowd_search(self):
+        self.memory.initialize(); source,_=self.lesson()
+        self.memory.retain(source,artifact_retention_ack='retained')
+        self.crowd()
+        result=self.memory.search(self.instance(),'schema')
+        self.assertEqual(len(result['packet']['records']),1)
+
+    def test_other_instances_cannot_crowd_retention(self):
+        self.memory.initialize(); source,_=self.lesson()
+        self.crowd(template='reviewer')
+        self.memory.retain(source,artifact_retention_ack='retained')
+        receipt=self.store.events(source)[-1]
+        self.assertEqual(len(receipt['payload']['record_ids']),2)
+
+    def test_overflow_refuses_incomplete_retirement(self):
+        self.memory.initialize(); source,verifier=self.lesson()
+        for number in range(32):
+            self.life.add_lesson(source,key='schema',text='More schema '+str(number),verification_event_id=verifier,expires_at=1100)
+        with self.assertRaises(MemoryUnavailable):
+            self.memory.retire(source,artifact_retention_ack='retained')
+        self.assertIn(source,self.life.contexts)
+        self.assertFalse(any(e['type'] in ('memory_retained','retired') for e in self.store.events(source)))
+
+    def test_retirement_rejects_receipt_from_other_store(self):
+        self.memory.initialize(); source,_=self.lesson()
+        self.memory.retain(source,artifact_retention_ack='retained')
+        other=self.adapter(directory=self.root/'second')
+        other.initialize()
+        with self.assertRaises(MemoryUnavailable):
+            other.retire(source,artifact_retention_ack='retained')
+        self.assertIn(source,self.life.contexts)
+        self.assertFalse(any(e['type']=='retired' for e in self.store.events(source)))
+
+    def test_replaced_store_identity_cannot_reuse_receipt(self):
+        import json,uuid
+        self.memory.initialize(); source,_=self.lesson()
+        self.memory.retain(source,artifact_retention_ack='retained')
+        marker=self.memory.directory/'scope.binding'
+        binding=json.loads(marker.read_text());binding['store_id']=str(uuid.uuid4())
+        marker.write_text(json.dumps(binding))
+        with self.assertRaises(MemoryUnavailable): self.memory.retire(source,artifact_retention_ack='retained')
+        self.assertIn(source,self.life.contexts)
+
+    def test_legacy_marker_is_preserved_and_rejected(self):
+        import json
+        self.memory.initialize(); source,_=self.lesson()
+        marker=self.memory.directory/'scope.binding'
+        binding=json.loads(marker.read_text());binding.pop('store_id');binding['protocol']='adaptive-recalltree/1'
+        raw=json.dumps(binding);marker.write_text(raw)
+        with self.assertRaises(MemoryUnavailable): self.memory.retire(source,artifact_retention_ack='retained')
+        self.assertEqual(marker.read_text(),raw)
+        self.assertIn(source,self.life.contexts)
+
 if __name__=='__main__': unittest.main()

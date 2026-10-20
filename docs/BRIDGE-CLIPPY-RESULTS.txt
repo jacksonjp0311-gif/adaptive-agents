@@ -1,0 +1,3 @@
+    Checking recalltree v0.1.1 (<repository>\vendor\recalltree)
+    Checking adaptive-recalltree-bridge v0.2.1 (<repository>\rust\recalltree-bridge)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.19s

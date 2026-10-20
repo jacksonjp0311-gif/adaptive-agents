@@ -1,0 +1,47 @@
+test_cross_project_configuration_and_identity_rejected (test_memory_bridge.MemoryBridgeTests.test_cross_project_configuration_and_identity_rejected) ... ok
+test_empty_and_unavailable_are_distinct (test_memory_bridge.MemoryBridgeTests.test_empty_and_unavailable_are_distinct) ... ok
+test_executable_tamper_or_wrong_store_binding_unavailable (test_memory_bridge.MemoryBridgeTests.test_executable_tamper_or_wrong_store_binding_unavailable) ... ok
+test_expiry_excludes_retained_memory (test_memory_bridge.MemoryBridgeTests.test_expiry_excludes_retained_memory) ... ok
+test_failed_backend_retention_keeps_context (test_memory_bridge.MemoryBridgeTests.test_failed_backend_retention_keeps_context) ... ok
+test_graph_associations_and_structural_privacy (test_memory_bridge.MemoryBridgeTests.test_graph_associations_and_structural_privacy) ... ok
+test_initialize_never_adopts_existing_directory (test_memory_bridge.MemoryBridgeTests.test_initialize_never_adopts_existing_directory) ... ok
+test_other_instances_cannot_crowd_retention (test_memory_bridge.MemoryBridgeTests.test_other_instances_cannot_crowd_retention) ... FAIL
+test_other_template_cannot_crowd_search (test_memory_bridge.MemoryBridgeTests.test_other_template_cannot_crowd_search) ... FAIL
+test_overflow_refuses_incomplete_retirement (test_memory_bridge.MemoryBridgeTests.test_overflow_refuses_incomplete_retirement) ... FAIL
+test_real_retrieval_provenance_and_retirement (test_memory_bridge.MemoryBridgeTests.test_real_retrieval_provenance_and_retirement) ... ok
+test_receipt_append_failure_keeps_context_and_retry_recovers (test_memory_bridge.MemoryBridgeTests.test_receipt_append_failure_keeps_context_and_retry_recovers) ... ok
+test_retention_retry_and_missing_records (test_memory_bridge.MemoryBridgeTests.test_retention_retry_and_missing_records) ... ok
+test_revocation_excludes_retained_memory_without_deleting (test_memory_bridge.MemoryBridgeTests.test_revocation_excludes_retained_memory_without_deleting) ... ok
+test_source_search_callback_receives_host_scope (test_memory_bridge.MemoryBridgeTests.test_source_search_callback_receives_host_scope) ... ok
+test_tampered_provenance_is_not_admitted (test_memory_bridge.MemoryBridgeTests.test_tampered_provenance_is_not_admitted) ... ok
+test_unverified_outcome_not_searchable (test_memory_bridge.MemoryBridgeTests.test_unverified_outcome_not_searchable) ... ok
+
+======================================================================
+FAIL: test_other_instances_cannot_crowd_retention (test_memory_bridge.MemoryBridgeTests.test_other_instances_cannot_crowd_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>\tests\test_memory_bridge.py", line 169, in test_other_instances_cannot_crowd_retention
+    self.assertEqual(len(receipt['payload']['record_ids']),2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_other_template_cannot_crowd_search (test_memory_bridge.MemoryBridgeTests.test_other_template_cannot_crowd_search)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>\tests\test_memory_bridge.py", line 162, in test_other_template_cannot_crowd_search
+    self.assertEqual(len(result['packet']['records']),1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_overflow_refuses_incomplete_retirement (test_memory_bridge.MemoryBridgeTests.test_overflow_refuses_incomplete_retirement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>\tests\test_memory_bridge.py", line 175, in test_overflow_refuses_incomplete_retirement
+    with self.assertRaises(MemoryUnavailable):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: MemoryUnavailable not raised
+
+----------------------------------------------------------------------
+Ran 17 tests in 4.807s
+
+FAILED (failures=3)

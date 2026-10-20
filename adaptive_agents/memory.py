@@ -4,6 +4,9 @@ import json
 import pathlib
 import subprocess
 import time
+import uuid
+import os
+from itertools import islice
 from .core import TERMINAL, ident
 
 POLICY_VERSION = "recalltree-validated-lessons-v1"
@@ -25,11 +28,24 @@ class RecallTreeMemory:
         self.executable_sha256=executable_sha256
         self.configuration_hash=configuration_hash
 
+    def _store_identity(self):
+        try:
+            binding=json.loads((self.directory/'scope.binding').read_text(encoding='utf-8'))
+            if not isinstance(binding,dict): raise ValueError('invalid binding')
+            store_id=str(uuid.UUID(binding['store_id']))
+            if any(binding.get(k)!=v for k,v in dict(protocol='adaptive-recalltree/2',project_id=self.project_id,memory_key=self.memory_key,configuration_hash=self.configuration_hash).items()):
+                raise ValueError('scope mismatch')
+            destination=os.path.normcase(str(self.directory))
+            return store_id,hashlib.sha256((store_id+'\0'+destination).encode()).hexdigest()
+        except (OSError,ValueError,KeyError,TypeError) as error:
+            raise MemoryUnavailable('store identity unavailable; explicit host reconciliation required') from error
+
     def _call(self, operation, **payload):
         try:
             if hashlib.sha256(self.executable.read_bytes()).hexdigest()!=self.executable_sha256:
                 raise MemoryUnavailable('bridge executable hash mismatch')
-            request=dict(operation=operation,store=str(self.directory),project_id=self.project_id,
+            store_id=str(uuid.uuid4()) if operation=='init' else self._store_identity()[0]
+            request=dict(operation=operation,store_id=store_id,store=str(self.directory),project_id=self.project_id,
                          memory_key=self.memory_key,configuration_hash=self.configuration_hash,**payload)
             data=json.dumps(request,allow_nan=False).encode('utf-8')
             if len(data)>65536: raise ValueError('memory request exceeds 64 KiB')
@@ -38,7 +54,7 @@ class RecallTreeMemory:
             if len(result.stdout)>131072: raise MemoryUnavailable('bridge response exceeds budget')
             response=json.loads(result.stdout)
             if not isinstance(response,dict): raise MemoryUnavailable('invalid bridge response')
-            if result.returncode or response.get('protocol')!='adaptive-recalltree/1' or response.get('status')=='error':
+            if result.returncode or response.get('protocol')!='adaptive-recalltree/2' or response.get('status')=='error':
                 raise MemoryUnavailable(response.get('error','bridge failed'))
             return response
         except (OSError,subprocess.TimeoutExpired,json.JSONDecodeError) as error:
@@ -65,8 +81,11 @@ class RecallTreeMemory:
         ident(artifact_retention_ack)
         spec,state,events=self._scope(instance)
         if state not in TERMINAL | {'retired'}: raise ValueError('terminal outcome required before retention')
+        store_identity=self._store_identity()[1]
         prior=next((e for e in events if e['type']=='memory_retained' and e['payload']['backend']=='recalltree'),None)
         if prior:
+            if prior['payload'].get('store_identity')!=store_identity:
+                raise MemoryUnavailable('retention destination changed or legacy receipt requires reconciliation')
             if prior['payload']['artifact_retention_ack']!=artifact_retention_ack:
                 raise ValueError('retention identity conflict')
             return prior['event_id']
@@ -74,9 +93,9 @@ class RecallTreeMemory:
         # Compact outcome is audit evidence; it is never automatically a searchable lesson.
         records=[self._record(terminal['event_id'],terminal['payload']['summary'],
                  [dict(uri='event:'+terminal['event_id'],available=True)])]
-        lessons=self.life.store.lessons(self.project_id,spec['lesson_keys'],self.life.clock(),limit=32,
-                                       configuration_hash=self.configuration_hash)
-        lessons=[lesson for lesson in lessons if lesson['source_instance_id']==instance]
+        lessons=list(islice(self.life.store._eligible_lessons(self.project_id,spec['lesson_keys'],self.life.clock(),
+                                       configuration_hash=self.configuration_hash,source_instance_id=instance,template_id=self.memory_key),33))
+        if len(lessons)>32: raise MemoryUnavailable('retention exceeds 32 eligible lessons; no complete receipt written')
         for lesson in lessons:
             records.append(self._record(lesson['event_id'],lesson['text'],
                 [dict(uri='verification:'+lesson['verification_event_id'],available=True)],int(lesson['expires_at'])))
@@ -85,7 +104,7 @@ class RecallTreeMemory:
         if response.get('status')!='retained' or response.get('run_id')!=instance or response.get('record_ids')!=expected:
             raise MemoryUnavailable('retention response identity mismatch')
         return self.life.store.append(spec,'memory_retained',dict(backend='recalltree',
-            policy_version=POLICY_VERSION,record_ids=expected,artifact_retention_ack=artifact_retention_ack,
+            policy_version=POLICY_VERSION,store_identity=store_identity,record_ids=expected,artifact_retention_ack=artifact_retention_ack,
             receipt_sha256=hashlib.sha256(json.dumps(response,sort_keys=True).encode()).hexdigest()),self.life.clock())
 
     def retire(self, instance, *, artifact_retention_ack):
@@ -98,9 +117,7 @@ class RecallTreeMemory:
         if type(budget) is not int or not 256<=budget<=32768: raise ValueError('invalid packet budget')
         started=time.perf_counter()
         lessons=self.life.store.lessons(self.project_id,spec['lesson_keys'],self.life.clock(),limit=32,
-                                       configuration_hash=self.configuration_hash)
-        # Exact memory identity admission remains enforced even within one project.
-        lessons=[l for l in lessons if self.life._load(l['source_instance_id'])[0].get('template_id')==self.memory_key]
+                                       configuration_hash=self.configuration_hash,template_id=self.memory_key)
         allowed={lesson['event_id']:lesson for lesson in lessons}
         status='unavailable'; response=None
         try:
@@ -125,7 +142,7 @@ class RecallTreeMemory:
                 raise MemoryUnavailable('retrieval omission scope mismatch')
             status=response['status']
         except MemoryUnavailable:
-            response=dict(protocol='adaptive-recalltree/1',status='unavailable',packet=None,missing_ids=[])
+            response=dict(protocol='adaptive-recalltree/2',status='unavailable',packet=None,missing_ids=[])
         packet=response.get('packet') or {}
         selected=[dict(memory_id=r['id'],version=r['version'],verification_event_id=allowed[r['id']]['verification_event_id']) for r in packet.get('records',[])]
         payload=dict(backend='recalltree',policy_version=POLICY_VERSION,query_sha256=hashlib.sha256(query.encode()).hexdigest(),

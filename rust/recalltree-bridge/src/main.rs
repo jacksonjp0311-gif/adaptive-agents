@@ -14,6 +14,7 @@ use std::{
 struct Request {
     operation: String,
     store: PathBuf,
+    store_id: String,
     project_id: String,
     memory_key: String,
     configuration_hash: String,
@@ -34,7 +35,8 @@ fn budget() -> usize {
     8192
 }
 fn run(r: Request) -> Result<Value, String> {
-    if !r.store.is_absolute()
+    if r.store_id.len() != 36
+        || !r.store.is_absolute()
         || r.project_id.is_empty()
         || r.memory_key.is_empty()
         || r.project_id.len() > 160
@@ -43,8 +45,8 @@ fn run(r: Request) -> Result<Value, String> {
     {
         return Err("explicit absolute store, scope and configuration hash required".into());
     }
-    let binding = json!({"protocol":"adaptive-recalltree/1","project_id":r.project_id,
-        "memory_key":r.memory_key,"configuration_hash":r.configuration_hash});
+    let binding = json!({"protocol":"adaptive-recalltree/2","project_id":r.project_id,
+        "memory_key":r.memory_key,"configuration_hash":r.configuration_hash,"store_id":r.store_id});
     let marker = r.store.join("scope.binding");
     if r.operation == "init" {
         // Only create a NEW directory. Never reset or adopt an existing store.
@@ -57,7 +59,7 @@ fn run(r: Request) -> Result<Value, String> {
         file.write_all(serde_json::to_string(&binding).unwrap().as_bytes())
             .map_err(|e| e.to_string())?;
         file.sync_all().map_err(|e| e.to_string())?;
-        return Ok(json!({"protocol":"adaptive-recalltree/1","status":"initialized","empty":true}));
+        return Ok(json!({"protocol":"adaptive-recalltree/2","status":"initialized","empty":true}));
     }
     if r.operation != "retain" && r.operation != "search" {
         return Err("unknown operation".into());
@@ -104,7 +106,7 @@ fn run(r: Request) -> Result<Value, String> {
             engine.finalize(&r.run_id, Fault::None)?;
         }
         Ok(
-            json!({"protocol":"adaptive-recalltree/1","status":"retained","run_id":r.run_id,"record_ids":ids}),
+            json!({"protocol":"adaptive-recalltree/2","status":"retained","run_id":r.run_id,"record_ids":ids}),
         )
     } else {
         if r.query.len() > 2000 || !(256..=32768).contains(&r.budget) || r.eligible_ids.len() > 32 {
@@ -133,7 +135,7 @@ fn run(r: Request) -> Result<Value, String> {
             r.budget,
         )?;
         Ok(
-            json!({"protocol":"adaptive-recalltree/1","status":if missing.is_empty(){"ok"}else{"partial"},"packet":packet,"missing_ids":missing}),
+            json!({"protocol":"adaptive-recalltree/2","status":if missing.is_empty(){"ok"}else{"partial"},"packet":packet,"missing_ids":missing}),
         )
     }
 }
@@ -155,7 +157,7 @@ fn main() {
         Err(error) => {
             println!(
                 "{}",
-                json!({"protocol":"adaptive-recalltree/1","status":"error","error":error})
+                json!({"protocol":"adaptive-recalltree/2","status":"error","error":error})
             );
             std::process::exit(1);
         }
