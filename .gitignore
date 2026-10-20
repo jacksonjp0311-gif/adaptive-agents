@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.sqlite*
+*.db*
+*.egg-info/
+build/
+dist/
+.venv/
+
+wheel-smoke/
+pip-*/

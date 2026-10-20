@@ -1,0 +1,35 @@
+test_allocation_and_verify_retry (test_feedback.FeedbackTests.test_allocation_and_verify_retry) ... ok
+test_configuration_scope (test_feedback.FeedbackTests.test_configuration_scope) ... ok
+test_cost_monotonicity_unknown_and_missing (test_feedback.FeedbackTests.test_cost_monotonicity_unknown_and_missing) ... ok
+test_coverage_trap (test_feedback.FeedbackTests.test_coverage_trap) ... ok
+test_evidence_revocation_invalidates_feedback (test_feedback.FeedbackTests.test_evidence_revocation_invalidates_feedback) ... ok
+test_gate_duplicate_and_revision (test_feedback.FeedbackTests.test_gate_duplicate_and_revision) ... ok
+test_generator_evidence_validated (test_feedback.FeedbackTests.test_generator_evidence_validated) ... ok
+test_idempotent_transition_and_retirement (test_feedback.FeedbackTests.test_idempotent_transition_and_retirement) ... ok
+test_message_ack (test_feedback.FeedbackTests.test_message_ack) ... ok
+test_messages_budget_dedup_scope_and_export (test_feedback.FeedbackTests.test_messages_budget_dedup_scope_and_export) ... ok
+test_missing_cost_and_safety_veto (test_feedback.FeedbackTests.test_missing_cost_and_safety_veto) ... ok
+test_one_trial_per_instance_and_rebuild (test_feedback.FeedbackTests.test_one_trial_per_instance_and_rebuild) ... ok
+test_permission_invariance (test_feedback.FeedbackTests.test_permission_invariance) ... ok
+test_scope_version_expiry_and_incomplete (test_feedback.FeedbackTests.test_scope_version_expiry_and_incomplete) ... ok
+test_append_only (test_lifecycle.LifecycleTests.test_append_only) ... ok
+test_budget (test_lifecycle.LifecycleTests.test_budget) ... ok
+test_completion_is_not_verification (test_lifecycle.LifecycleTests.test_completion_is_not_verification) ... ok
+test_cross_task_evidence_rejected (test_lifecycle.LifecycleTests.test_cross_task_evidence_rejected) ... ok
+test_duplicate_and_replay (test_lifecycle.LifecycleTests.test_duplicate_and_replay) ... ok
+test_failed_check_not_admitted (test_lifecycle.LifecycleTests.test_failed_check_not_admitted) ... ok
+test_failure (test_lifecycle.LifecycleTests.test_failure) ... ok
+test_fresh_identity_and_job_name (test_lifecycle.LifecycleTests.test_fresh_identity_and_job_name) ... ok
+test_graph_and_mock_adapter (test_lifecycle.LifecycleTests.test_graph_and_mock_adapter) ... ok
+test_no_private_context_in_journal (test_lifecycle.LifecycleTests.test_no_private_context_in_journal) ... ok
+test_persistence_failure_keeps_context (test_lifecycle.LifecycleTests.test_persistence_failure_keeps_context) ... ok
+test_reopen_preserves_evidence (test_lifecycle.LifecycleTests.test_reopen_preserves_evidence) ... ok
+test_retirement_order (test_lifecycle.LifecycleTests.test_retirement_order) ... ok
+test_scoped_expiring_revocable_lessons (test_lifecycle.LifecycleTests.test_scoped_expiring_revocable_lessons) ... ok
+test_timeout (test_lifecycle.LifecycleTests.test_timeout) ... ok
+test_validation (test_lifecycle.LifecycleTests.test_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 1.078s
+
+OK

@@ -1,0 +1,42 @@
+{
+  "fixture_suite": "required-fields-v1",
+  "synthetic_only": true,
+  "baseline": {
+    "launches": 8,
+    "evaluable": 8,
+    "coverage": 1.0,
+    "conditional_success": 0.0,
+    "credited_success": 0.0,
+    "mean_utility": -0.05
+  },
+  "candidate": {
+    "launches": 8,
+    "evaluable": 8,
+    "coverage": 1.0,
+    "conditional_success": 1.0,
+    "credited_success": 1.0,
+    "mean_utility": 0.9249999999999999
+  },
+  "gate": {
+    "policy_version": "verified-utility-v1",
+    "decision": "candidate",
+    "n": 8,
+    "mean_delta": 0.975,
+    "reason": "finite suite gate passed"
+  },
+  "strong_baseline": {
+    "launches": 8,
+    "evaluable": 8,
+    "coverage": 1.0,
+    "conditional_success": 1.0,
+    "credited_success": 1.0,
+    "mean_utility": 0.95
+  },
+  "strong_comparison": {
+    "policy_version": "verified-utility-v1",
+    "decision": "baseline",
+    "n": 8,
+    "mean_delta": -0.025000000000000022,
+    "reason": "incomplete, unsafe, tied or insufficient finite-suite improvement"
+  }
+}

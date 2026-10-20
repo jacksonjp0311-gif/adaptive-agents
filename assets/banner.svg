@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+<title id="title">Adaptive Agents</title><desc id="desc">Fresh identities for each task. Durable evidence connects verified lessons to future work.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#08152a"/><stop offset="1" stop-color="#143a48"/></linearGradient><linearGradient id="accent"><stop stop-color="#49e3b3"/><stop offset="1" stop-color="#65bfff"/></linearGradient></defs>
+<rect width="1200" height="420" rx="24" fill="url(#bg)"/>
+<g fill="none" stroke="#358d9a" stroke-width="2"><path d="M810 100L970 70L1080 190L960 300L790 260Z"/><path d="M810 100L960 300M970 70L790 260M790 260L1080 190"/></g>
+<g fill="#122b42" stroke="url(#accent)" stroke-width="4"><circle cx="810" cy="100" r="24"/><circle cx="970" cy="70" r="18"/><circle cx="1080" cy="190" r="30"/><circle cx="960" cy="300" r="24"/><circle cx="790" cy="260" r="19"/></g>
+<text x="64" y="89" font-family="Segoe UI,Arial,sans-serif" font-size="17" letter-spacing="4" fill="#6ee7cd">TASK-SPECIFIC · EVIDENCE-FIRST</text>
+<text x="60" y="172" font-family="Segoe UI,Arial,sans-serif" font-size="66" font-weight="700" fill="#ffffff">Adaptive Agents</text>
+<text x="64" y="223" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#bdd8e9">Fresh context. Durable evidence. Measured feedback.</text>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#092036"><rect x="64" y="280" width="150" height="42" rx="21" fill="#64e4bd"/><text x="87" y="307">ASSIGN</text><rect x="232" y="280" width="150" height="42" rx="21" fill="#64d4d3"/><text x="257" y="307">VERIFY</text><rect x="400" y="280" width="150" height="42" rx="21" fill="#79c7f5"/><text x="425" y="307">RETAIN</text></g>
+<text x="64" y="377" font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#a5c6d8">Python standard library core / Host-owned authority / v0.1</text></svg>
