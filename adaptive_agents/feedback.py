@@ -35,11 +35,6 @@ class Feedback:
         for value in (trial_id,key,candidate_version,rubric_version,environment_version,suite_version): ident(value)
         if type(revision) is not int or revision < 1 or type(safety_passed) is not bool: raise ValueError("invalid revision/safety")
         spec, _, events = self.life._load(instance)
-        verification = next((e for e in events if e["event_id"] == verification_event_id and e["type"] == "verification"), None)
-        if not verification or not verification["payload"]["passed"] or any(e["type"]=="verification_revoked" and e["payload"]["verification_event_id"]==verification_event_id for e in events):
-            raise ValueError("independent evaluator must attest paired trial evidence")
-        if type(expires_at) not in (int,float) or not math.isfinite(expires_at) or not self.life.clock() < expires_at <= self.life.clock()+2592000:
-            raise ValueError("invalid trial expiry")
         bu,cu=utility(**baseline),utility(**candidate)
         payload = {"trial_id":trial_id,"key":key,"candidate_version":candidate_version,
                    "policy_version":POLICY_VERSION,"rubric_version":rubric_version,
@@ -52,9 +47,16 @@ class Feedback:
         if previous:
             old=previous[-1]
             if old["instance_id"] != instance: raise ValueError("trial belongs to another instance")
-            if old["payload"]==payload: return old["event_id"]
+            # Historical receipt lookup never revalidates or reapplies old evidence.
+            identical=next((e for e in previous if e["payload"]==payload),None)
+            if identical: return identical["event_id"]
             if revision != old["payload"]["revision"]+1: raise ValueError("revision must advance exactly once")
         elif revision != 1: raise ValueError("first revision must be 1")
+        verification = next((e for e in events if e["event_id"] == verification_event_id and e["type"] == "verification"), None)
+        if not verification or not verification["payload"]["passed"] or any(e["type"]=="verification_revoked" and e["payload"]["verification_event_id"]==verification_event_id for e in events):
+            raise ValueError("independent evaluator must attest paired trial evidence")
+        if type(expires_at) not in (int,float) or not math.isfinite(expires_at) or not self.life.clock() < expires_at <= self.life.clock()+2592000:
+            raise ValueError("invalid trial expiry")
         return self.life.store.append(spec,"paired_trial",payload,self.life.clock())
 
     def select(self, project_id, key, candidate_version, *, case_ids, rubric_version="v1",

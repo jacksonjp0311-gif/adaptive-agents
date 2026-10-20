@@ -1,0 +1,29 @@
+test_identical_trial_retry_after_expiry_is_historical_ack_only (test_historical_retry.HistoricalRetryTests.test_identical_trial_retry_after_expiry_is_historical_ack_only) ... ERROR
+test_identical_trial_retry_after_revocation_is_historical_ack_only (test_historical_retry.HistoricalRetryTests.test_identical_trial_retry_after_revocation_is_historical_ack_only) ... ERROR
+
+======================================================================
+ERROR: test_identical_trial_retry_after_expiry_is_historical_ack_only (test_historical_retry.HistoricalRetryTests.test_identical_trial_retry_after_expiry_is_historical_ack_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<workspace>/tests\test_historical_retry.py", line 17, in test_identical_trial_retry_after_expiry_is_historical_ack_only
+    self.assertEqual(feedback.record(instance,**args),original)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<workspace>/adaptive_agents\feedback.py", line 42, in record
+    raise ValueError("invalid trial expiry")
+ValueError: invalid trial expiry
+
+======================================================================
+ERROR: test_identical_trial_retry_after_revocation_is_historical_ack_only (test_historical_retry.HistoricalRetryTests.test_identical_trial_retry_after_revocation_is_historical_ack_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<workspace>/tests\test_historical_retry.py", line 26, in test_identical_trial_retry_after_revocation_is_historical_ack_only
+    self.assertEqual(feedback.record(instance,**args),original)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<workspace>/adaptive_agents\feedback.py", line 40, in record
+    raise ValueError("independent evaluator must attest paired trial evidence")
+ValueError: independent evaluator must attest paired trial evidence
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.076s
+
+FAILED (errors=2)

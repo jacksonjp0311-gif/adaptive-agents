@@ -26,10 +26,14 @@ class ScopedMessages:
         if duplicate:
             if duplicate["payload"]!=payload: raise ValueError("message identity conflict")
             return duplicate["event_id"]
+        # A recipient's legacy ACK key must identify only one sender's message.
+        inbound_events=[e for e in self.life.store.events() if e["type"]=="message" and e["payload"]["target_instance_id"]==target]
+        if any(e["payload"]["message_id"]==message_id for e in inbound_events):
+            raise ValueError("recipient message identity conflict")
         if state_a!="running" or state_b!="running": raise ValueError("participants must be running")
         if not isinstance(text,str) or not text.strip() or len(text)>2000 or len(old)>=self.maximum:
             raise ValueError("message size or budget exceeded")
-        inbound=sum(e["type"]=="message" and e["payload"]["target_instance_id"]==target for e in self.life.store.events())
+        inbound=len(inbound_events)
         if inbound>=self.maximum: raise ValueError("recipient queue budget exhausted")
         if not self.life.step(source): raise ValueError("execution budget exhausted")
         return self.life.store.append(a,"message",payload,self.life.clock())
@@ -38,10 +42,16 @@ class ScopedMessages:
         spec, _, _ = self.life._load(target)
         return [e for e in self.life.store.events() if e["type"]=="message" and e["project_id"]==spec["project_id"] and e["assignment_id"]==spec["assignment_id"] and e["payload"]["target_instance_id"]==target][:self.maximum]
 
-    def acknowledge(self, target, message_id):
+    def acknowledge(self, target, message_id, *, source_instance_id=None):
         spec, _, events = self.life._load(target)
-        message=next((e for e in self.inbox(target) if e["payload"]["message_id"]==message_id),None)
-        if not message: raise ValueError("message not owned by recipient")
+        # Search durable records, not the bounded presentation slice of inbox().
+        matches=[e for e in self.life.store.events() if e["type"]=="message"
+                 and e["project_id"]==spec["project_id"] and e["assignment_id"]==spec["assignment_id"]
+                 and e["payload"]["target_instance_id"]==target and e["payload"]["message_id"]==message_id
+                 and (source_instance_id is None or e["instance_id"]==source_instance_id)]
+        if not matches: raise ValueError("message not owned by recipient")
+        if len(matches)!=1: raise ValueError("ambiguous message identity; specify source_instance_id")
+        message=matches[0]
         prior=next((e for e in events if e["type"]=="message_ack" and e["payload"]["message_event_id"]==message["event_id"]),None)
         if prior: return prior["event_id"]
         return self.life.store.append(spec,"message_ack",{"message_event_id":message["event_id"]},self.life.clock())

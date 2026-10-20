@@ -19,3 +19,10 @@ Boundaries intentionally retained:
 - Full graph export contains private payloads. The bounded structural projection omits them; host must still redact opaque IDs where sensitive.
 
 Remaining evidence gaps: actual Pegasus wiring, model behavior, external tool brokers, hard process deadlines, representative task gains and independent human review.
+
+
+## v0.1.1 independent findings and patch review
+
+A separate parent-provided source reviewer identified two concrete defects in commit 34fc85849142167c0fb7008df31326f476c3555f: cross-sender message ID collisions made recipient ACK ambiguous, and current expiry/revocation checks rejected exact historical trial retries. Both were reproduced before code edits. Original failing outputs are retained in `docs/regressions/` with the local workspace path redacted; the baseline source remains in Git history.
+
+The patch review checked that collisions have no step/event side effects, original-sender retries stay idempotent, legacy ambiguous records fail explicitly and can be selected by sender, unauthorized recipients cannot ACK another message, and historical trial retries neither create contributions nor restore revoked/expired evidence. Changed stale payloads still fail admission and old-revision retries do not roll back current selection. Seven added cases pass; full suite is 37 tests. No model or live harness was invoked.

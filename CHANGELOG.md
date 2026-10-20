@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 - 2026-10-20
+
+- Reject cross-sender message ID collisions for the same recipient before charging steps or appending events.
+- Reject ambiguous legacy ACK lookup; optional source_instance_id selects the original sender without changing durable records.
+- Acknowledge exact historical paired-trial retries after expiry, revocation or later revisions without admitting stale evidence or changing selection.
+- Preserve original failing regression outputs and add seven focused regression cases. Full suite: 37 passing tests.
+
 ## 0.1.0 — 2026-10-20
 
 - Initial portable standard-library lifecycle, job-specific names and fresh UUIDs.

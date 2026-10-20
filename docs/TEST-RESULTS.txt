@@ -12,6 +12,10 @@ test_missing_cost_and_safety_veto (test_feedback.FeedbackTests.test_missing_cost
 test_one_trial_per_instance_and_rebuild (test_feedback.FeedbackTests.test_one_trial_per_instance_and_rebuild) ... ok
 test_permission_invariance (test_feedback.FeedbackTests.test_permission_invariance) ... ok
 test_scope_version_expiry_and_incomplete (test_feedback.FeedbackTests.test_scope_version_expiry_and_incomplete) ... ok
+test_changed_stale_payload_is_not_admitted (test_historical_retry.HistoricalRetryTests.test_changed_stale_payload_is_not_admitted) ... ok
+test_identical_trial_retry_after_expiry_is_historical_ack_only (test_historical_retry.HistoricalRetryTests.test_identical_trial_retry_after_expiry_is_historical_ack_only) ... ok
+test_identical_trial_retry_after_revocation_is_historical_ack_only (test_historical_retry.HistoricalRetryTests.test_identical_trial_retry_after_revocation_is_historical_ack_only) ... ok
+test_retry_old_revision_preserves_latest_selection (test_historical_retry.HistoricalRetryTests.test_retry_old_revision_preserves_latest_selection) ... ok
 test_append_only (test_lifecycle.LifecycleTests.test_append_only) ... ok
 test_budget (test_lifecycle.LifecycleTests.test_budget) ... ok
 test_completion_is_not_verification (test_lifecycle.LifecycleTests.test_completion_is_not_verification) ... ok
@@ -28,8 +32,11 @@ test_retirement_order (test_lifecycle.LifecycleTests.test_retirement_order) ... 
 test_scoped_expiring_revocable_lessons (test_lifecycle.LifecycleTests.test_scoped_expiring_revocable_lessons) ... ok
 test_timeout (test_lifecycle.LifecycleTests.test_timeout) ... ok
 test_validation (test_lifecycle.LifecycleTests.test_validation) ... ok
+test_legacy_collision_requires_explicit_sender (test_message_identity.MessageIdentityTests.test_legacy_collision_requires_explicit_sender) ... ok
+test_recipient_message_id_collision_rejected_without_side_effects (test_message_identity.MessageIdentityTests.test_recipient_message_id_collision_rejected_without_side_effects) ... ok
+test_sender_retry_and_identical_text_other_sender (test_message_identity.MessageIdentityTests.test_sender_retry_and_identical_text_other_sender) ... ok
 
 ----------------------------------------------------------------------
-Ran 30 tests in 1.078s
+Ran 37 tests in 0.999s
 
 OK

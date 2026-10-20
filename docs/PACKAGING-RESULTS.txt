@@ -4,7 +4,7 @@ Processing .\.
 Building wheels for collected packages: adaptive-agents
   Building wheel for adaptive-agents (pyproject.toml): started
   Building wheel for adaptive-agents (pyproject.toml): finished with status 'done'
-  Created wheel for adaptive-agents: filename=adaptive_agents-0.1.0-py3-none-any.whl size=11346 sha256=c9d0d98ed3abe4b5d870450073a25f7eb2c6b0e8d9ebb7249b7cd5c4de1bbd6c
+  Created wheel for adaptive-agents: filename=adaptive_agents-0.1.1-py3-none-any.whl size=11577 sha256=134f9b0e7c9f980a0452dd5e11ec056a506a407da7e14a55c17d3ebd60ffe757
 [Temporary wheel cache path omitted]
 Successfully built adaptive-agents
 CLI demo/export roundtrip: OK
