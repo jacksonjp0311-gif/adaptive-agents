@@ -9,3 +9,8 @@ dist/
 
 wheel-smoke/
 pip-*/
+
+**/target/
+recalltree-test-*/
+recalltree-restart-*/
+.runtime/

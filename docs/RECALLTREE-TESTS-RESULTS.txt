@@ -1,0 +1,41 @@
+$ cargo test --locked --offline --manifest-path vendor/recalltree/Cargo.toml
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 15 tests
+test envelope_failure_is_explicit ... ok
+test invisible_scope_cannot_supersede_or_remove_omissions ... ok
+test scoped_expiry_and_supersession ... ok
+test supersession_requires_visible_role_and_active_status ... ok
+test candidate_cannot_be_shared ... ok
+test working_limit_and_duplicate_ids ... ok
+test bounded_store_does_not_delete ... ok
+test provenance_and_kind_survive ... ok
+test precommit_preserves_work ... ok
+test concurrent_finalize_is_serialized ... ok
+test generation_retention_stops_writes ... ok
+test postcommit_replay_is_idempotent ... ok
+test cleanup_failure_keeps_durable_state ... ok
+test byte_budget_and_equivalence ... ok
+test restart_after_commit_recovers_marker ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running unittests src\lib.rs (vendor\recalltree\target\debug\deps\recalltree-f08cd9adea824126.exe)
+     Running unittests src\main.rs (vendor\recalltree\target\debug\deps\recalltree-a16e5b667f7c950d.exe)
+     Running tests\core.rs (vendor\recalltree\target\debug\deps\core-98fe19a8bb291d92.exe)
+   Doc-tests recalltree

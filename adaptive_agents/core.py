@@ -117,6 +117,12 @@ class Store:
                     key = "copy_run:" + run
                     nodes[key] = {"id":key,"kind":"copy_run"}
                     edges.append({"source":instance,"target":key,"type":role})
+            if e["type"] == "memory_retrieval":
+                for selected in e["payload"].get("selected", []):
+                    edges.append({"source":e["event_id"],"target":selected["memory_id"],"type":"retrieved_for_run"})
+            if e["type"] == "memory_retained":
+                for record_id in e["payload"].get("record_ids", []):
+                    edges.append({"source":e["event_id"],"target":record_id,"type":"retained_in_memory"})
             if e["type"] == "lesson_validated":
                 edges.append({"source":e["event_id"],"target":e["payload"]["verification_event_id"],"type":"supported_by"})
         return {"schema_version":1,"nodes":list(nodes.values()),"edges":edges,"events":self.events()}

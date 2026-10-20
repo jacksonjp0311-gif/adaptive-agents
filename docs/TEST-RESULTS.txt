@@ -1,3 +1,4 @@
+$ python -m unittest discover -s tests -v
 test_allocation_and_verify_retry (test_feedback.FeedbackTests.test_allocation_and_verify_retry) ... ok
 test_configuration_scope (test_feedback.FeedbackTests.test_configuration_scope) ... ok
 test_cost_monotonicity_unknown_and_missing (test_feedback.FeedbackTests.test_cost_monotonicity_unknown_and_missing) ... ok
@@ -32,11 +33,25 @@ test_retirement_order (test_lifecycle.LifecycleTests.test_retirement_order) ... 
 test_scoped_expiring_revocable_lessons (test_lifecycle.LifecycleTests.test_scoped_expiring_revocable_lessons) ... ok
 test_timeout (test_lifecycle.LifecycleTests.test_timeout) ... ok
 test_validation (test_lifecycle.LifecycleTests.test_validation) ... ok
+test_cross_project_configuration_and_identity_rejected (test_memory_bridge.MemoryBridgeTests.test_cross_project_configuration_and_identity_rejected) ... ok
+test_empty_and_unavailable_are_distinct (test_memory_bridge.MemoryBridgeTests.test_empty_and_unavailable_are_distinct) ... ok
+test_executable_tamper_or_wrong_store_binding_unavailable (test_memory_bridge.MemoryBridgeTests.test_executable_tamper_or_wrong_store_binding_unavailable) ... ok
+test_expiry_excludes_retained_memory (test_memory_bridge.MemoryBridgeTests.test_expiry_excludes_retained_memory) ... ok
+test_failed_backend_retention_keeps_context (test_memory_bridge.MemoryBridgeTests.test_failed_backend_retention_keeps_context) ... ok
+test_graph_associations_and_structural_privacy (test_memory_bridge.MemoryBridgeTests.test_graph_associations_and_structural_privacy) ... ok
+test_initialize_never_adopts_existing_directory (test_memory_bridge.MemoryBridgeTests.test_initialize_never_adopts_existing_directory) ... ok
+test_real_retrieval_provenance_and_retirement (test_memory_bridge.MemoryBridgeTests.test_real_retrieval_provenance_and_retirement) ... ok
+test_receipt_append_failure_keeps_context_and_retry_recovers (test_memory_bridge.MemoryBridgeTests.test_receipt_append_failure_keeps_context_and_retry_recovers) ... ok
+test_retention_retry_and_missing_records (test_memory_bridge.MemoryBridgeTests.test_retention_retry_and_missing_records) ... ok
+test_revocation_excludes_retained_memory_without_deleting (test_memory_bridge.MemoryBridgeTests.test_revocation_excludes_retained_memory_without_deleting) ... ok
+test_source_search_callback_receives_host_scope (test_memory_bridge.MemoryBridgeTests.test_source_search_callback_receives_host_scope) ... ok
+test_tampered_provenance_is_not_admitted (test_memory_bridge.MemoryBridgeTests.test_tampered_provenance_is_not_admitted) ... ok
+test_unverified_outcome_not_searchable (test_memory_bridge.MemoryBridgeTests.test_unverified_outcome_not_searchable) ... ok
 test_legacy_collision_requires_explicit_sender (test_message_identity.MessageIdentityTests.test_legacy_collision_requires_explicit_sender) ... ok
 test_recipient_message_id_collision_rejected_without_side_effects (test_message_identity.MessageIdentityTests.test_recipient_message_id_collision_rejected_without_side_effects) ... ok
 test_sender_retry_and_identical_text_other_sender (test_message_identity.MessageIdentityTests.test_sender_retry_and_identical_text_other_sender) ... ok
 
 ----------------------------------------------------------------------
-Ran 37 tests in 0.999s
+Ran 51 tests in 4.904s
 
 OK

@@ -82,3 +82,10 @@ The construction deliberately favors the candidate and shows that the lifecycle,
 [Generalization in Adaptive Data Analysis and Holdout Reuse (Dwork et al., 2015)](https://proceedings.neurips.cc/paper/2015/hash/bad5f33780c42f2588878a9d07405083-Abstract.html) motivates caution about adaptive holdout reuse. This implementation does not implement that paper's algorithms or inherit its guarantees.
 
 [Concrete Problems in AI Safety (Amodei et al., 2016)](https://arxiv.org/abs/1606.06565) discusses reward hacking, supervision and distribution shift. These concerns motivate independent evaluation and explicit applicability rules; this module does not solve them generally.
+
+
+## Separate agent and retrieval experiments
+
+Retrieval telemetry records association, not causal credit. Freeze an agent-policy suite while varying the agent configuration with memory policy fixed; separately freeze a retrieval-policy suite while keeping the agent configuration, source corpus, queries, budgets and evaluator fixed. Namespace case/suite keys (for example `agent-policy-v1` and `memory-policy-v1`), keep their contributions separate, and use held-out cases before deployment. Never pool these axes into one claim that the system improved itself.
+
+For memory comparisons, include a no-memory baseline and an equal-budget simple lexical baseline. Measure independently verified task outcomes, retrieval relevance/coverage, latency and actual execution/verification costs. Null costs stay unknown and block the existing promotion gate. Store selected IDs and provenance with each run so an evaluator can audit exposure, but do not assign credit merely because a memory was selected. Freeze revisions and admission rules before scoring; expiry/revocation still overrides eligibility. The supplied tests establish deterministic mechanism invariants only. No measured RecallTree task-quality gain or causal improvement is claimed in v0.2.

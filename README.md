@@ -8,11 +8,11 @@
 
 Adaptive Agents creates a job-specific name, role, context and unique instance identity. A host runs the assignment under its existing permissions and budgets. Outcomes and independently evaluated evidence enter an append-only graph; only scoped, valid lessons can inform future agents. The ephemeral context retires after durable evidence retention is acknowledged.
 
-This is a portable lifecycle library, not an autonomous superagent. It invokes no models, executes no shell commands and grants no tool permissions. Any-harness support is an adapter design goal, not a compatibility certification.
+This is a portable lifecycle library, not an autonomous superagent. It invokes no models and grants no tool permissions. The optional memory adapter launches an explicitly configured local bridge executable without a shell. Any-harness support is an adapter design goal, not a compatibility certification.
 
 ## Quickstart
 
-Python 3.10+ is the only runtime requirement. From this repository, no installation is needed:
+Python 3.10+ is the only requirement for the base lifecycle library. From this repository, no installation is needed:
 
 ```sh
 python -m unittest discover -s tests -v
@@ -79,6 +79,7 @@ flowchart LR
 |---|---|
 | `core.py` | Assignment validation, fresh identity, lifecycle, event journal, graph and lesson retrieval |
 | `adapters.py` | Host protocol and bounded same-assignment internal messages |
+| `memory.py` | Optional RecallTree retention, scoped agent search and laboratory telemetry |
 | `feedback.py` | Verified credited utility, revision-aware paired trials and baseline fallback |
 | `examples/benchmark.py` | Deterministic no-model baseline/candidate fixture comparison |
 | Host | Tool discovery, current authorization, process isolation, hard timeout, verification, artifact retention and context disposal |
@@ -93,6 +94,14 @@ Feedback records unknown outcomes distinctly from verified failure. Missing cost
 
 The supplied synthetic benchmark compares a fixed no-memory required-field check with a scoped validated required-field recipe. An equal-capability no-memory baseline also checks the declared schema directly; it matches correctness at lower declared cost and the gate retains that baseline. These results demonstrate the machinery on deliberately constructed cases. They do not measure LLM quality, establish statistical superiority, or promise improvement on each run. See [mathematics and falsifiable limits](docs/MATHEMATICS.md).
 
+## Optional RecallTree memory
+
+[RecallTree integration](docs/RECALLTREE.md) adds a clean, separate store for each project, stable agent template and configuration. It preserves compact terminal evidence before retirement and searches only lessons still admitted by the lifecycle journal. Failed or unverified outcomes remain audit evidence; storing or retrieving them never makes them valid lessons.
+
+`AgentSearch` combines the memory packet with an optional existing host source-search callback. Each search records selected memory IDs, verification provenance, policy version, omissions and latency for laboratory analysis. It does not invent a success score or infer that a retrieved memory caused a later result. Agent policy and retrieval policy experiments remain separate.
+
+The repository includes the pinned Rust source and original JSON bridge. The Python wheel includes the adapter only; it does not install or discover a bridge binary. Memory support is optional and its tests report skips until you build it. No existing Pegasus memory is imported, reset or opened.
+
 ## Retention, privacy and limits
 
 - Objective and raw context are excluded from the journal. Role, names, tool IDs, summaries, lesson text, messages and evidence references persist: redact them **before** calling the API. The library cannot reliably detect secrets.
@@ -105,6 +114,6 @@ The supplied synthetic benchmark compares a fixed no-memory required-field check
 
 ## Development and licensing
 
-All source and SVG artwork were created for this standalone project. No Pegasus source, runtime records, private logs or credentials are included. Runtime dependencies: none. Optional build dependency: setuptools (MIT). Project license: [MIT](LICENSE).
+Original Adaptive Agents code and artwork are covered by [MIT](LICENSE). The optional vendored RecallTree core is pinned to public upstream v0.1.1 and retains its [existing license decision](vendor/recalltree/LICENSE-DECISION.md); it is explicitly excluded from MIT. No Pegasus-specific bridge, runtime records, private logs or credentials are included. Base Python runtime dependencies: none. Optional Python build dependency: setuptools (MIT). Optional RecallTree build requires Rust 1.89+ and the locked dependencies listed in [the dependency manifest](docs/RECALLTREE-DEPENDENCIES.json).
 
 For coding agents and maintainers, read [AGENTS.md](AGENTS.md) before changing contracts.

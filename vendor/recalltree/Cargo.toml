@@ -1,0 +1,11 @@
+[package]
+name = "recalltree"
+version = "0.1.1"
+edition = "2021"
+rust-version = "1.89"
+description = "Experimental bounded specialist memory with evidence-linked JSON packets"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

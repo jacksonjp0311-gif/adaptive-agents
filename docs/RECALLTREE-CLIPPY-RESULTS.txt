@@ -1,0 +1,9 @@
+$ cargo clippy --locked --offline --manifest-path vendor/recalltree/Cargo.toml --all-targets -- -D warnings
+    Checking itoa v1.0.18
+    Checking memchr v2.8.3
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking serde_json v1.0.151
+    Checking serde v1.0.229
+    Checking recalltree v0.1.1 (<repository>\vendor\recalltree)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.71s

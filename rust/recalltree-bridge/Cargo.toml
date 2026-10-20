@@ -1,0 +1,12 @@
+[package]
+name = "adaptive-recalltree-bridge"
+version = "0.2.0"
+edition = "2021"
+rust-version = "1.89"
+license = "MIT"
+publish = false
+
+[dependencies]
+recalltree = { path = "../../vendor/recalltree", version = "=0.1.1" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

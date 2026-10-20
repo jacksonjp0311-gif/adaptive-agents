@@ -1,0 +1,9 @@
+$ cargo run --locked --offline --manifest-path vendor/recalltree/Cargo.toml --example evaluate
+budget_bytes,selected,serialized_bytes,equal_to_unified
+512,0,266,true
+1024,2,812,true
+2048,6,1909,true
+4096,13,3841,true
+8192,16,4672,true
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.42s
+     Running `vendor\recalltree\target\debug\examples\evaluate.exe`

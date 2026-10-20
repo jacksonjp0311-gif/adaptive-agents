@@ -1,0 +1,9 @@
+# Security and retention
+
+Memory is untrusted data, never authority. Observation is not interpretation and a verified-outcome label does not certify a caller's assertion. Validate source content independently. Never execute remembered commands. External URI dereferencing is not performed by this package.
+
+This is local storage without encryption or authentication. Protect the directory with OS permissions. Role/scope filters are selection predicates, not an identity service. The embedding application enforces caller authorization. Shared is a deliberate visibility grant and candidate lessons cannot set it. Omission IDs may disclose existence within the authorized scope. Supersession is restricted to active replacements visible within that same exact scope and role/shared domain. Invisible replacements cannot hide a visible record or its omission ID. Cross-domain graph links are retained as audit data but do not grant visibility or affect that domain's retrieval.
+
+Limits stop ingestion/finalization without deleting source traces or audit records. Expiry excludes records from packets without destroying history. Each persistent generation includes audit roots. Manually export and verify an archive before starting a new bounded store; no automatic destructive retention exists. Store only bounded sufficient evidence references, not secrets or entire source dumps. Evidence availability is caller-reported and may become stale.
+
+File sync and same-directory rename protect against ordinary precommit interruption, but power loss guarantees vary by filesystem. Readers should use Engine under its exclusive writer lock. Tampering, malicious JSON, network filesystems and adversarial resource exhaustion are not defended as production security boundaries. Pending buffers are process-memory only; cleanup is logical removal, not guaranteed cryptographic RAM erasure.

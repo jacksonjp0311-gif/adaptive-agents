@@ -1,0 +1,91 @@
+{
+  "upstream": "jacksonjp0311-gif/RecallTree",
+  "commit": "052b30c7b3d393d4245d8749195a4ee348d3bc57",
+  "normalization": "CRLF to LF; verified Git blob identities",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha": "f0dcd8d14937fa2f07cf7d4dafbf0ffc6f6f4fce"
+    },
+    {
+      "path": ".gitignore",
+      "sha": "687fd6edfcf9aa7082c3815020d93f9b40a8ef19"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha": "4b73b10e9581fd6f6a8d781c3d8eda3701572d15"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha": "5003343e66ab137f15d16fac218021b03feb99ce"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha": "9d1054cd94a950db4db5ddb2aec6c88175a6674e"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha": "a41af2d84ff1ae3aa7f8cc895e32f5a19e14d7cb"
+    },
+    {
+      "path": "LICENSE-DECISION.md",
+      "sha": "1318741de6885dbbe755f85caf2ee89cf6635793"
+    },
+    {
+      "path": "README.md",
+      "sha": "a7877286b2f1b348bd721cccdc2e1e50bbf4d37d"
+    },
+    {
+      "path": "assets/banner.svg",
+      "sha": "d1fcc3ab8479c10f3c4eab73771587021ef8d8c7"
+    },
+    {
+      "path": "docs/architecture.md",
+      "sha": "10aa66297c760c280c02e4d194c1ed1ca4e7764a"
+    },
+    {
+      "path": "docs/evaluation.md",
+      "sha": "c47da8e25b286cd2e80b3d047dfb2a6251962b4b"
+    },
+    {
+      "path": "docs/integration.md",
+      "sha": "1824535fb3f2f59208bfc046f44f58dc9db8170e"
+    },
+    {
+      "path": "docs/math.md",
+      "sha": "f9c97dc8013bd7eda2e26ae869651661910158ac"
+    },
+    {
+      "path": "docs/protocol.md",
+      "sha": "de4c1d8743724c5fa6c29c1a22e4d5239df598fe"
+    },
+    {
+      "path": "docs/releasing.md",
+      "sha": "8d6cf7e1c17a2f4a9f609a7f2cbb3d7edd462f1e"
+    },
+    {
+      "path": "docs/security.md",
+      "sha": "7e77064876c6151e335db3a1aff2843c2b5e45b5"
+    },
+    {
+      "path": "docs/validation.md",
+      "sha": "37009db500bd9e4112214b1fee6c80e566292b63"
+    },
+    {
+      "path": "examples/evaluate.rs",
+      "sha": "6bb17a1d32bb40a351ae9394ab5e38df5f884643"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha": "89e6c0058d55759987c5c2202e1394eba0b0b2c9"
+    },
+    {
+      "path": "src/main.rs",
+      "sha": "49ec2a4ecf15d829768c1460c33be71e827211e9"
+    },
+    {
+      "path": "tests/core.rs",
+      "sha": "0c6ba0fabe3d951222b4960e51a5ddac81035186"
+    }
+  ]
+}

@@ -1,3 +1,7 @@
+Scope: This MIT license covers original Adaptive Agents code and documentation.
+It does not cover vendor/recalltree/, which retains its separate
+LICENSE-DECISION.md notice and grants no public copyright license.
+
 MIT License
 
 Copyright (c) 2026 James Jackson

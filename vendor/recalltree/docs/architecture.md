@@ -1,0 +1,9 @@
+# Architecture
+
+Engine owns a mutex-protected State, per-run pending compact records and separate disposable byte buffers. An OS file lock excludes independent writers. State is a deterministic ordered map of records, a set of typed edges and a set of committed run IDs. Evidence URI nodes are implicit edge endpoints and count in capacity checks. IDs are caller assigned and must be stable and globally unique within a store.
+
+Finalization holds the ingestion mutex throughout snapshot, graph construction, boundedness checks, temporary write, file sync, parse verification and rename. Only a successful commit enables cleanup. BeforeCommit failure leaves pending context; AfterCommit simulates interruption before cleanup; replay sees the durable run marker and performs cleanup without new graph additions. Cleanup failure leaves committed state available. Restart loads the latest complete JSON generation and ignores .tmp files. Temp files are engine-owned; no source file is touched.
+
+Compaction is explicit at the integration boundary: callers submit concise records while keeping verbose scratch separately. The engine preserves complete compact records and evidence references rather than applying lossy text summarization. It does not infer facts or improve lessons automatically. Retrieval greedily includes whole records; omissions remain visible.
+
+Boundedness is lifetime per store, not just per run: node capacity includes record IDs, external edge targets and run markers; edge capacity counts all deduplicated links; generation and snapshot byte caps stop writes. Each generation is at most snapshot_bytes, so durable snapshot allocation is bounded by generations × snapshot_bytes, excluding filesystem overhead and one temporary snapshot. Working limits count serialized pending record bytes plus scratch byte lengths, not allocator overhead. External evidence storage is out of scope.

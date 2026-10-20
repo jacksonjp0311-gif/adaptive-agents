@@ -1,0 +1,1 @@
+$ cargo fmt --manifest-path vendor/recalltree/Cargo.toml --check

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 - 2026-10-20
+
+- Add optional fresh-store RecallTree bridge and Python memory adapter, with exact project/template/configuration binding.
+- Retain terminal evidence before retirement; retrieve only currently validated, nonexpired, nonrevoked lessons.
+- Add agent-search composition and provenance-linked retrieval telemetry; keep agent and memory policy evaluations separate.
+- Vendor the public RecallTree v0.1.1 core unchanged with its original license decision and source/dependency manifests. No existing harness memory is imported.
+- Add real offline subprocess integration tests, including failed retention, tampering, expiry and scope isolation.
+
 ## 0.1.1 - 2026-10-20
 
 - Reject cross-sender message ID collisions for the same recipient before charging steps or appending events.
